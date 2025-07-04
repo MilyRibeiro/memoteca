@@ -4,23 +4,14 @@ import api from "./api.js";
 const ui = {
     async renderizarPensamentos() {
         const listaDePensamentos = document.getElementById('lista-pensamentos');
+        listaDePensamentos.innerHTML = '';
 
         try {
             const pensamentos = await api.buscarPensamentos();
-            // pensamentos.forEach(pensamento => {
-            //     listaDePensamentos.innerHTML += `
-            //         <li class="li-pensamento" data-id="${pensamento.id}">
-            //             <img src="assets/imagens/aspas-azuis.png" alt="Aspas azuis" class="icone-aspas">
-            //             <div class="pensamento-conteudo">${pensamento.conteudo}</div>
-            //             <div class="pensamento-autoria">${pensamento.autoria}</div>
-            //         </li>
-            //     `
-            // });
             pensamentos.forEach(ui.adicionarPensamentoNaLista);
         }
         catch {
             alert('Erro ao renderizar os pensamentos');
-            throw error;
         };
     },
 
@@ -58,14 +49,33 @@ const ui = {
         const botaoEditar = document.createElement('button');
         botaoEditar.classList.add("botao-editar");
         botaoEditar.onclick = () => ui.preencherFormulario(pensamento.id);
+        
         const iconeEditar = document.createElement('img');
         iconeEditar.src = "assets/imagens/icone-editar.png";
         iconeEditar.alt = "Editar";
         botaoEditar.appendChild(iconeEditar);
 
+        const botaoExcluir = document.createElement('button');
+        botaoExcluir.classList.add("botao-excluir");
+        botaoExcluir.onclick = async () => {
+            try {
+                await api.excluirPensamento(pensamento.id);
+                ui.renderizarPensamentos();
+
+            } catch (error) {
+                alert('Erro ao excluir pensamento!');
+            };
+        };
+
+        const iconeExcluir = document.createElement('img');
+        iconeExcluir.src = "assets/imagens/icone-excluir.png";
+        iconeExcluir.alt = "Excluir";
+        botaoExcluir.appendChild(iconeExcluir);
+
         const icones = document.createElement('div');
         icones.classList.add("icones");
         icones.appendChild(botaoEditar);
+        icones.appendChild(botaoExcluir);
 
         liPensamento.appendChild(iconeAspas);
         liPensamento.appendChild(pensamentoConteudo);
