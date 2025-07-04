@@ -4,11 +4,18 @@ import api from "./api.js";
 const ui = {
     async renderizarPensamentos() {
         const listaDePensamentos = document.getElementById('lista-pensamentos');
+        const mensagemVazia = document.getElementById('mensagem-vazia');
         listaDePensamentos.innerHTML = '';
 
         try {
             const pensamentos = await api.buscarPensamentos();
             pensamentos.forEach(ui.adicionarPensamentoNaLista);
+            if(pensamentos.length === 0) {
+                mensagemVazia.style.display = "block";
+            } else {
+                mensagemVazia.style.display = "none";
+                pensamentos.forEach(ui.adicionarPensamentoNaLista);
+            };
         }
         catch {
             alert('Erro ao renderizar os pensamentos');
