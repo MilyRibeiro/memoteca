@@ -1,5 +1,3 @@
-![Thumbnail](./thumb.png)
-
 # Memoteca
 
 Memoteca é um aplicativo organizador de pensamentos e frases que permite cadastrar, listar, editar e deletar pensamentos, incluindo informações como conteúdo e autoria.
@@ -33,6 +31,9 @@ Memoteca é um aplicativo organizador de pensamentos e frases que permite cadast
 
 Você pode [acessar o figma do projeto aqui](https://www.figma.com/design/Sz1gmmemxqcB3amInL4Ndp/Rebrand-Memoteca-%7C-Curso-CRUD?node-id=148-26&t=FpdmfbiM1i1s6REQ-0).
 
+## 📁 API Fake
+Você pode [acessar a API Fake do projeto aqui](https://github.com/MilyRibeiro/memoteca/blob/main/backend/db.json).
+
 ## 🛠️ Abrir e rodar o projeto
 
 Para executar a API fake, você vai precisar do NodeJS; a versão utilizada foi a 20.12.2.
@@ -41,6 +42,12 @@ Instale o JSON Server globalmente (se ainda não estiver instalado):
 
 ```bash
 npm install -g json-server
+```
+
+Crie o arquivo package.json:
+
+```bash
+npm init -y
 ```
 
 Para executar, abra um novo terminal e, dentro da pasta backend, execute:
