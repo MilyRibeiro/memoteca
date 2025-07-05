@@ -51,19 +51,19 @@
       "autoria": "Dev"
     },
     {
-      "id": "3f1a",
-      "conteudo": "Conserta minha impressora?",
-      "autoria": "Grupo da família"
-    },
-    {
       "id": "8b4c",
-      "conteudo": "A vingança nunca é plena... mata a alma e a envenena...",
+      "conteudo": "A vingança nunca é plena... Mata a alma e a envenena!",
       "autoria": "Seu Madruga"
     },
     {
       "id": "4d2e",
       "conteudo": "Se eu for aí e achar, eu esfrego na sua cara!",
       "autoria": "Mãe"
+    },
+    {
+      "id": "e0d7",
+      "conteudo": "NÃÃÃÃO Myleninha!",
+      "autoria": "Mylena"
     }
   ]
 }
