@@ -2,6 +2,17 @@
 import api from "./api.js";
 
 const ui = {
+     async preencherFormulario(pensamentoId) {
+        const pensamento = await api.buscarPensamentoPorId(pensamentoId);
+        document.getElementById('pensamento-id').value = pensamento.id;
+        document.getElementById('pensamento-conteudo').value = pensamento.conteudo;
+        document.getElementById('pensamento-autoria').value = pensamento.autoria;
+        document.getElementById('pensamento-data').value = pensamento.data.toISOString().split("T")[0];  // Esse método retornará uma data como um valor de string no formato ISO, o padrão para a representação de datas e horas. Ele pode ser utilizado em conjunto com o UTC. Após os parênteses de toISOString(), também precisaremos fazer uma quebra com o split(), enviando como parâmetro o T entre aspas duplas, e, após os parênteses, acessaremos o primeiro elemento, o [0].
+        // Estamos recebendo a data "2024-08-01T00:00:00.000Z" no formato UTC, e precisamos fazer com que o input de data a reconheça. Para isso, utilizamos o toISOString(). Também fizemos um split(), portanto, a quebra acontecerá a partir do T, e será dividida em duas partes: a primeira com a data e a segunda com o horário. Por fim, o array entre colchetes que informamos com o valor zero indica que queremos o primeiro elemento desse array — ou seja, a data.
+
+        document.getElementById('form-container').scrollIntoView();  //O método scrollIntoView ativará o direcionamento para a parte de edição do formulário por meio do clique no ícone.
+    },
+
     async renderizarPensamentos(pensamentosFiltrados = null) {
         const listaDePensamentos = document.getElementById('lista-pensamentos');
         const mensagemVazia = document.getElementById('mensagem-vazia');
@@ -29,13 +40,6 @@ const ui = {
         };
     },
 
-    async preencherFormulario(pensamentoId) {
-        const pensamento = await api.buscarPensamentoPorId(pensamentoId);
-        document.getElementById('pensamento-id').value = pensamento.id;
-        document.getElementById('pensamento-conteudo').value = pensamento.conteudo;
-        document.getElementById('pensamento-autoria').value = pensamento.autoria;
-    },
-
     limparFormulario() {
         document.getElementById('pensamento-form').reset();
     },
@@ -59,6 +63,19 @@ const ui = {
         const pensamentoAutoria = document.createElement('div');
         pensamentoAutoria.textContent = pensamento.autoria;
         pensamentoAutoria.classList.add("pensamento-autoria");
+
+        const pensamentoData = document.createElement('div');
+        const opcoes = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'UTC'
+        };
+
+        const dataFormatada = pensamento.data.toLocaleDateString('pt-BR', opcoes);
+        pensamentoData.textContent = dataFormatada;
+        pensamentoData.classList.add("pensamento-data");
 
         const botaoEditar = document.createElement('button');
         botaoEditar.classList.add("botao-editar");
@@ -112,6 +129,7 @@ const ui = {
         liPensamento.appendChild(iconeAspas);
         liPensamento.appendChild(pensamentoConteudo);
         liPensamento.appendChild(pensamentoAutoria);
+        liPensamento.appendChild(pensamentoData);
         liPensamento.appendChild(icones);
         listaDePensamentos.appendChild(liPensamento);
     }

@@ -19,12 +19,17 @@ async function manipularSubmissaoForm(evento) {
     const id = document.getElementById('pensamento-id').value;
     const conteudo = document.getElementById('pensamento-conteudo').value;
     const autoria = document.getElementById('pensamento-autoria').value;
+    const data = document.getElementById('pensamento-data').value;
+    
+    if(!validarData(data)) {
+        alert('Não é permitido cadastrar datas futuras! Selecione outra data.');
+    };
 
     try {
         if(id) {
-            await api.editarPensamento({ id, conteudo, autoria });
+            await api.editarPensamento({ id, conteudo, autoria, data });
         } else {
-            await api.salvarPensamento({ conteudo, autoria });
+            await api.salvarPensamento({ conteudo, autoria, data });
         };
 
         ui.renderizarPensamentos();
@@ -49,4 +54,13 @@ async function manipularBusca() {
     } catch (error) {
         alert('Erro ao realizar a busca.');
     };
-}
+};
+
+// O formato específico que queremos é: ano — mês — dia.
+function validarData(data) {
+    const dataAtual = new Date();  // sem nenhum parâmetro, essa classe retorna a data ATUAL
+    const dataInserida = new Date(data);
+    return dataInserida <= dataAtual;
+};
+
+// No JavaScript, os meses são representados de 0 a 11. Funciona como no array, em que o índice do primeiro elemento é 0, não 1. Sendo assim, ao lidar com meses, precisamos fazer uma conversão, por ex.: se quisermos o mês de agosto, precisamos passar 7 para que o construtor retorne o mês correto.
