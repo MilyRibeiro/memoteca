@@ -2,6 +2,20 @@
 import ui from "./ui.js";
 import api from "./api.js";
 
+function removerEspacos(string) {
+    return string.replaceAll(/\s+/g, '');
+};
+
+const regexConteudo = /^[\p{L}\s.,:!?]{10,}$/u;
+function validarConteudo(conteudo) {
+    return regexConteudo.test(conteudo);
+};
+
+const regexAutoria = /^[\p{L}\s]{3,25}$/u;
+function validarAutoria(autoria) {
+    return regexAutoria.test(autoria);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     ui.renderizarPensamentos();
 
@@ -20,6 +34,18 @@ async function manipularSubmissaoForm(evento) {
     const conteudo = document.getElementById('pensamento-conteudo').value;
     const autoria = document.getElementById('pensamento-autoria').value;
     const data = document.getElementById('pensamento-data').value;
+    const conteudoSemEspacos = removerEspacos(conteudo);
+    const autoriaSemEspacos = removerEspacos(autoria);
+
+    if(!validarConteudo(conteudoSemEspacos)) {
+        alert('É permitido digitar apenas letras e espaços com no mínimo 10 caracteres.');
+        return;
+    };
+
+    if(!validarAutoria(autoriaSemEspacos)) {
+        alert('É permitido digitar apenas letras e entre 3 a 15 caracteres sem espaços!');
+        return;
+    };
     
     if(!validarData(data)) {
         alert('Não é permitido cadastrar datas futuras! Selecione outra data.');
@@ -62,5 +88,3 @@ function validarData(data) {
     const dataInserida = new Date(data);
     return dataInserida <= dataAtual;
 };
-
-// No JavaScript, os meses são representados de 0 a 11. Funciona como no array, em que o índice do primeiro elemento é 0, não 1. Sendo assim, ao lidar com meses, precisamos fazer uma conversão, por ex.: se quisermos o mês de agosto, precisamos passar 7 para que o construtor retorne o mês correto.
