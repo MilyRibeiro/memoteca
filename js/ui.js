@@ -2,18 +2,26 @@
 import api from "./api.js";
 
 const ui = {
-    async renderizarPensamentos() {
+    async renderizarPensamentos(pensamentosFiltrados = null) {
         const listaDePensamentos = document.getElementById('lista-pensamentos');
         const mensagemVazia = document.getElementById('mensagem-vazia');
         listaDePensamentos.innerHTML = '';
 
         try {
-            const pensamentos = await api.buscarPensamentos();
-            if(pensamentos.length === 0) {
+            let pensamentosParaRenderizar;
+
+            if(pensamentosFiltrados) {
+                pensamentosParaRenderizar = pensamentosFiltrados;
+            } else {
+                pensamentosParaRenderizar = await api.buscarPensamentos();
+            };
+
+            // const pensamentos = await api.buscarPensamentos();
+            if(pensamentosParaRenderizar.length === 0) {
                 mensagemVazia.style.display = "block";
             } else {
                 mensagemVazia.style.display = "none";
-                pensamentos.forEach(ui.adicionarPensamentoNaLista);
+                pensamentosParaRenderizar.forEach(ui.adicionarPensamentoNaLista);
             };
         }
         catch {
